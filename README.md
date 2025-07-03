@@ -63,6 +63,7 @@ The system uses a serverless AWS architecture:
 - **LlmConfigTable**: LLM configuration with version history and GSI for active configuration queries
 
 ### Key Features
+- **Data Integration via Agents**: Use your own data sources to define domain-specific item descriptions
 - **Image Grid Processing**: Automatically creates image grids for efficient LLM analysis
 - **Batch Processing**: Support for bulk verification jobs
 - **Address Matching**: Location-based verification capabilities
