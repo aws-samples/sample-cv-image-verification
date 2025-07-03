@@ -336,6 +336,7 @@ Navigation includes:
 ## API Endpoints
 
 The FastAPI backend provides comprehensive REST endpoints:
+- `/agents/*` - Agent management and configuration
 - `/items/*` - Item management and filtering rules
 - `/collections/*` - File collections and uploads
 - `/verification-jobs/*` - Job creation, monitoring, and results
