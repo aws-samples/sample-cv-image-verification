@@ -23,8 +23,15 @@ This is a monorepo managed with [pnpm](https://pnpm.io/) workspaces, containing 
 
 ## Core Concepts
 
+### Agents
+An agent helps to provide extra information to item descriptions. For example, if you are creating an item for a car engine inspection verification, you could use an agent that can look up detailed engine specifications so that the LLM is able to perform detailed analysis. There are currently 3 types of agents supported:
+- Amazon Bedrock Knowledge Base
+- Amazon Athena
+- REST Endpoint
+
 ### Items
 Items define what you're looking for in your image collections. Each item contains:
+- **Agents**: You can link items to one or more agents to augment the description filtering rules. For example, you might have an agent that can fetch data from a Bedrock Knowledge Base that contains technical specifications, business processes or other relevant information. The agent is used to lookup the relevant data. This is useful in not having to constantly repeat descriptions.
 - **Label Filtering Rules**: Image-based criteria using computer vision (detect specific objects, minimum confidence scores)
 - **Description Filtering Rules**: Text-based criteria for image descriptions
 - **Cluster Requirements**: Logical grouping of rules for complex compliance scenarios
@@ -38,6 +45,7 @@ Collections are groups of files (typically images) that need to be verified agai
 ### Verification Jobs
 Automated processes that evaluate collections against items using:
 - AI/LLM analysis (Claude, etc.) for intelligent image assessment
+- Ability to execute internet searches if required to look up more information if needed
 - Confidence scoring and reasoning
 - Cost tracking for AI processing
 - Detailed logging and audit trails
@@ -139,13 +147,14 @@ The system uses a serverless AWS architecture:
 
 **Integrations**: Invoked by messages from the Job Processing Queue. Reads images from the Storage Bucket. Uses Amazon Bedrock and Amazon Rekognition for analysis. Reads configuration from SSM Parameter Store. Reads data and writes results to DynamoDB tables. 
 
-**Explanation**: Lambda is suitable for event-driven, asynchronous processing. It scales automatically and is cost-effective since you only pay for compute time consumed.
+**Explanation**: Lambda is suitable for event-driven, asynchronous processing. It scales automatically and is cost-effective since you only pay for compute time consumed. [Strands Agents](https://strandsagents.com/) is used for the agentic functionality used during analysis.
 
 ### DynamoDB Tables (Amazon DynamoDB)
 
 **Component**: Amazon DynamoDB is a NoSQL key-value and document database.
 
 **Role**: 
+- **Agents**: Stores information about the agents and their configuration.
 - **Items**: Stores the information on items to be verified.
 - **Collections**: Stores details about the collections.
 - **Verification Jobs**: Stores the status and results of the image verification and analysis processes.
