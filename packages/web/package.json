@@ -1,0 +1,42 @@
+{
+  "name": "@aws-samples/cv-verification-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@aws-samples/cv-verification-api-client": "workspace:*",
+    "@aws-amplify/ui-react": "^6.9.4",
+    "@aws-northstar/ui": "^1.1.13",
+    "@cloudscape-design/components": "^3.0.927",
+    "@cloudscape-design/global-styles": "^1.0.38",
+    "@tanstack/react-query": "^5.71.1",
+    "@types/uuid": "^10.0.0",
+    "aws-amplify": "^6.13.6",
+    "axios": "^1.10.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.8",
+    "react-router-dom": ">=7.5.2",
+    "uuid": "^11.1.0",
+    "web-vitals": "^4.2.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": ">=6.2.7"
+  }
+}

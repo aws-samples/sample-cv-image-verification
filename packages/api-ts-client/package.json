@@ -1,0 +1,15 @@
+{
+  "name": "@aws-samples/cv-verification-api-client",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ."
+  },
+  "dependencies": {
+    "typescript-fetch": "^0.0.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

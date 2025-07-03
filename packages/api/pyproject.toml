@@ -1,0 +1,32 @@
+[tool.ruff]
+# Same as Black.
+line-length = 88
+# Enable Pyflakes `E` and `F` codes by default.
+# Plus, enable `flake8-bugbear` `B`.
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = ["E203", "E501"]
+# Add specific rules if needed, e.g., ignore = ["F401"]
+
+[tool.ruff.format]
+# Optional: Add formatting specific settings if needed.
+
+[tool.mypy]
+# Check files in the current directory
+files = "."
+# Standard checks
+warn_return_any = true
+warn_unused_ignores = true
+# Allow missing type stubs for installed libraries
+ignore_missing_imports = true
+# Show error codes for easier debugging/ignoring
+show_error_codes = true
+# Follow imports for checking (can be 'skip', 'error', or 'normal')
+follow_imports = "skip" # Start with 'skip' to reduce initial noise
+
+# Optional: Specify python version if needed
+# python_version = "3.12"
+
+# Optional: Exclude files/directories
+exclude = ["tests/", "../infra/cdk.out/"]

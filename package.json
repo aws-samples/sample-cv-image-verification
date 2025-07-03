@@ -1,0 +1,19 @@
+{
+  "name": "@aws-samples/cv-verification",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pnpm -r build",
+    "build:client": "pnpm --filter @aws-samples/cv-verification-api-client build",
+    "build:web": "pnpm --filter @aws-samples/cv-verification-web build",
+    "clean": "pnpm -r exec -- rm -rf dist",
+    "synth": "pnpm --filter @aws-samples/cv-verification-infra synth",
+    "deploy": "pnpm --filter @aws-samples/cv-verification-infra deploy",
+    "destroy": "pnpm --filter @aws-samples/cv-verification-infra cdk destroy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

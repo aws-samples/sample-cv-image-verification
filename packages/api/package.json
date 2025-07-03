@@ -1,0 +1,18 @@
+{
+  "name": "@aws-samples/cv-verification-api",
+  "version": "0.1.0",
+  "description": "FastAPI backend for AWS Lambda",
+  "scripts": {
+    "start": "uvicorn app.main:app --reload",
+    "test": "pytest",
+    "build": "ruff check . && ruff format . && mypy .",
+    "deploy": "serverless deploy"
+  },
+  "keywords": [
+    "fastapi",
+    "aws",
+    "lambda"
+  ],
+  "author": "",
+  "license": "ISC"
+}
