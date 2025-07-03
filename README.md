@@ -2,11 +2,12 @@
 
 ![a robot looking through a magnifying glass](docs/foreman.png)
 
-This AI-powered computer vision inspection system that automates the verification of files against predefined criteria using Large Language Models (LLMs) and image analysis. This repository contains a monorepo for the complete application stack.
+This is an AI-powered computer vision inspection system that automates the verification of files against predefined criteria using Large Language Models (LLMs) and image analysis. This repository contains a monorepo for the complete application stack.
 
 ## Overview
 
 This sample enables organizations to:
+- Integrate with internal and external data sources using LLM agents
 - Define **Items** with specific criteria (visual and description-based filtering rules)
 - Upload **Collections** of files (primarily images) for inspection
 - Run automated **Verification Jobs** that use AI to determine if files meet the defined criteria
