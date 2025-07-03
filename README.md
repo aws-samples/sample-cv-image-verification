@@ -104,34 +104,47 @@ The system uses a serverless AWS architecture:
 ### API (Lambda Proxy with FastAPI)
 
 **Component**: The backend application programming interface. This is an Amazon API Gateway endpoint that proxies requests to an AWS Lambda function running a FastAPI application.  
+
 **Role**: To receive requests from the authenticated user (e.g., to submit collections, upload images), validate them, and trigger the processing workflow. It also handles writing data to DynamoDB tables.  
-**Integrations**: Receives requests from the user via the Static Website Distribution (after authentication via Cognito). It writes images to the Storage Bucket and enqueues jobs in the Job Processing Queue. It also interacts with DynamoDB tables.  
+
+**Integrations**: Receives requests from the user via the Static Website Distribution (after authentication via Cognito). It writes images to the Storage Bucket and enqueues jobs in the Job Processing Queue. It also interacts with DynamoDB tables. 
+
 **Explanation**: API Gateway provides a scalable and secure entry point for API calls. AWS Lambda allows for serverless execution of the FastAPI application, which is a modern, fast framework for building APIs with Python. The API also provides the capability to integrate directly with functionality without using the user interface.
 
 ### Storage Bucket (Amazon S3)
 
-**Component**: Amazon S3 (Simple Storage Service) is an object storage service.  
+**Component**: Amazon S3 (Simple Storage Service) is an object storage service.
+
 **Role**: To store the images associated with the collections that are uploaded by the user via the API.  
-**Integrations**: The API (Lambda Proxy) writes images to this bucket. The Analysis Lambda reads images from this bucket for processing.  
+
+**Integrations**: The API (Lambda Proxy) writes images to this bucket. The Analysis Lambda reads images from this bucket for processing. 
+
 **Explanation**: S3 is highly durable, scalable, and cost-effective for storing large amounts of data like images. It also integrates seamlessly with other AWS services like Lambda.
 
 ### Job Processing Queue (Amazon SQS)
 
 **Component**: Amazon SQS (Simple Queue Service) is a message queuing service.  
+
 **Role**: To decouple the initial API request from the longer-running image analysis process. It holds messages representing jobs (e.g., a new collection to be analysed).  
+
 **Integrations**: The API (Lambda Proxy) sends messages (jobs) to this queue. The Analysis Lambda is invoked by messages in this queue.  
+
 **Explanation**: SQS provides a reliable and scalable way to manage asynchronous tasks, preventing the API from being blocked by long-running processes and improving the resilience of the system.
 
 ### Analysis Lambda (AWS Lambda)
 
 **Component**: AWS Lambda is a serverless compute function.  
+
 **Role**: To perform the core analysis of the images and collection data. This includes retrieving images from the Storage Bucket, interacting with Amazon Rekognition and Amazon Bedrock for analysis (object detection, image validation), and accessing configuration from SSM Parameter Store. It then writes the results to the Verification Jobs DynamoDB table.  
-**Integrations**: Invoked by messages from the Job Processing Queue. Reads images from the Storage Bucket. Uses Amazon Bedrock and Amazon Rekognition for analysis. Reads configuration from SSM Parameter Store. Reads data and writes results to DynamoDB tables.  
+
+**Integrations**: Invoked by messages from the Job Processing Queue. Reads images from the Storage Bucket. Uses Amazon Bedrock and Amazon Rekognition for analysis. Reads configuration from SSM Parameter Store. Reads data and writes results to DynamoDB tables. 
+
 **Explanation**: Lambda is suitable for event-driven, asynchronous processing. It scales automatically and is cost-effective since you only pay for compute time consumed.
 
 ### DynamoDB Tables (Amazon DynamoDB)
 
-**Component**: Amazon DynamoDB is a NoSQL key-value and document database.  
+**Component**: Amazon DynamoDB is a NoSQL key-value and document database.
+
 **Role**: 
 - **Items**: Stores the information on items to be verified.
 - **Collections**: Stores details about the collections.
@@ -139,27 +152,37 @@ The system uses a serverless AWS architecture:
 - **Configuration**: Stores application configuration, prompts and verification rules.
 
 **Integrations**: The API (Lambda Proxy) likely writes initial data to items and collections tables. The Analysis Lambda writes results to the Verification Jobs table and may read from any of these tables for context or rules.  
+
 **Explanation**: DynamoDB is a fully managed, highly scalable, and low-latency NoSQL database, suitable for applications with high I/O needs and flexible data models, common in serverless applications.
 
 ### SSM Parameter Store (AWS Systems Manager Parameter Store)
 
 **Component**: AWS Systems Manager Parameter Store is a service to store configuration data and secrets.  
+
 **Role**: To store configuration parameters for the application. The only current parameter being used is to store the ARN of a role that the Bedrock runtime assumes.  
+
 **Integrations**: The Analysis Lambda reads configuration data (prompts, etc.) from the Parameter Store.  
+
 **Explanation**: Provides a secure and manageable way to store and version application configuration and secrets, separating them from the application code.
 
 ### Amazon Bedrock
 
-**Component**: Amazon Bedrock is a fully managed service that offers a choice of high-performing foundation models (FMs) via a single API.  
+**Component**: Amazon Bedrock is a fully managed service that offers a choice of high-performing foundation models (FMs) via a single API. 
+ 
 **Role**: To provide access to foundation models natural language understanding of item requirements, image analysis, and generating textual reasoning/explanations for anomalies.  
+
 **Integrations**: The Analysis Lambda calls the Bedrock API to leverage foundation models for its analysis tasks. Prompts for Bedrock are stored in a DynamoDB table to make them configurable through the web interface.  
+
 **Explanation**: Simplifies access to powerful foundation models, allowing the prototype to leverage generative AI capabilities without needing to manage the underlying infrastructure or train models from scratch. Bedrock also allows for the usage of newer FMs as they get released without significant code changes.
 
 ### Amazon Rekognition
 
 **Component**: Amazon Rekognition is an AWS service that makes it simple to add computer vision capabilities without managing infrastructure.  
+
 **Role**: To perform object label detection to perform a fast and cheap way of eliminating collection images before Amazon Bedrock is used for more expensive, slower detailed analysis.  
+
 **Integrations**: The Analysis Lambda sends images (or references to images in S3) to the Rekognition API for analysis.  
+
 **Explanation**: Provides pre-trained and customizable computer vision capabilities, reducing the development effort for image analysis tasks. It is used to detect a configurable set of labels as the first step to eliminating non-relevant collection images.
 
 
