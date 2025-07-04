@@ -14,6 +14,40 @@ This sample enables organizations to:
 - Track assessment results, confidence scores, and processing costs
 - Manage LLM configurations and system prompts
 
+## Functionality
+
+### Agent Setup
+
+![](docs/ss1.png)
+
+This allows for the setup of agents, which allows the integration with Amazon Athena, Amazon Bedrock Knowledge Bases or REST API endpoints. For example, you may be wanting to check that a specific car engine is properly installed - by having detailed engine specifications in a Bedrock Knowledge Base, the verification process can automatically look up the information required.
+
+### Item Setup
+
+![](docs/ss2.png)
+
+An item can reflect an activity, a physical object or any process that can be checked visually. You can manage items and allow them to be visually verified using *description filtering rules*. These rules allow you to specify criteria that will be checked against images in collections.
+
+### Collection Setup
+
+![](docs/ss3.png)
+
+Collections are a set of activities or physical objects that are grouped together. For example, a collection can be an invoice which contains many line items. Images are uploaded to a collection for verification.
+
+### Verification Jobs
+
+![](docs/ss4.png)
+![](docs/ss5.png)
+![](docs/ss6.png)
+
+When you setup a verification job, it is processed asynchronously. The verification job then gets marked as "rejected" or "accepted", depending on the images checked.
+
+### Configuration
+
+![](docs/ss7.png)
+
+The configuration screen allows you to modify prompts and change model IDs as needed.
+
 ## Project Structure
 
 This is a monorepo managed with [pnpm](https://pnpm.io/) workspaces, containing the following packages:
@@ -393,7 +427,7 @@ If automated teardown encounters issues, you may need to manually clean up:
 
 2. **Delete DynamoDB Tables**:
    - Go to AWS DynamoDB Console  
-   - Delete tables: `VerificationJobsTable`, `VerificationJobLogsTable`, `ItemsTable`, `CollectionsTable`, `FileChecksTable`, `LlmConfigTable`
+   - Delete tables: `Agents`, `VerificationJobsTable`, `VerificationJobLogsTable`, `ItemsTable`, `CollectionsTable`, `FileChecksTable`, `LlmConfigTable`
 
 3. **Remove Lambda Functions**:
    - Go to AWS Lambda Console
